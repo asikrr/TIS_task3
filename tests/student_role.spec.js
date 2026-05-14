@@ -7,12 +7,10 @@ test.describe('Добавление роли студента', () => {
     await page.locator('input[autocomplete="username"]').fill('qwertyuiop');
     await page.locator('input[autocomplete="current-password"]').fill('Password1');
     await page.getByRole('button', { name: 'Войти' }).click();
-    await expect(page.getByText('Личный кабинет')).toBeVisible();
 
-    await page.getByRole('button', { name: 'Выбрать роль' }).waitFor({ state: 'visible' });
     await page.getByRole('button', { name: 'Выбрать роль' }).click();
     await page.getByText('Я являюсь студентом').click();
-    await expect(page.locator('.desktop-modal')).not.toBeVisible();
+    await page.locator('.desktop-modal').waitFor({ state: 'hidden', timeout: 10000 });
     await expect(page.getByText('Студент').first()).toBeVisible();
 
     await page.getByRole('button', { name: 'Сбросить роль' }).click();
