@@ -13,16 +13,14 @@ test.describe.serial('Подача заявки на роль образоват
     await page.getByRole('button', { name: 'Выбрать роль' }).click();
     await page.getByText('Я являюсь представителем образовательной организации').click();
     await page.getByText('Создание нового личного кабинета ОУ').click();
-    
-    await page.locator('input[placeholder="Название вашей организации"]').fill('Тест');
-    await page.locator('input[placeholder="Адрес вашей организации"]').fill('Тест');
-    await page.locator('textarea[placeholder="Описание вашей организации"]').fill('Тест');
+    await page.locator('input[placeholder="Название вашей организации"]').fill('Тест ВУЗ');
+    await page.locator('input[placeholder="Адрес вашей организации"]').fill('Адрес 1');
+    await page.locator('textarea[placeholder="Описание вашей организации"]').fill('Описание 1');
 
     await page.getByRole('button', { name: 'Добавить' }).click();
     await page.locator('.desktop-modal__close').click();
-
     await page.getByText('Заявки').click();
-    await expect(page.getByRole('button', { name: 'Удалить' }).first()).toBeVisible();
+    await page.getByRole('button', { name: 'Удалить' }).first().click();
   });
 });
 
@@ -55,14 +53,22 @@ test.describe.serial('Подача заявки на роль образоват
     await page.getByRole('button', { name: 'Выбрать роль' }).click();
     await page.getByText('Я являюсь представителем образовательной организации').click();
     await page.getByText('Создание нового личного кабинета ОУ').click();
-    
-    await page.getByRole('textbox', { name: 'Название вашей организации' }).fill('Вторая организация ОУ');
+    await page.getByRole('textbox', { name: 'Название вашей организации' }).fill('Первый ВУЗ');
+    await page.getByRole('textbox', { name: 'Адрес вашей организации' }).fill('Адрес 1');
+    await page.getByRole('textbox', { name: 'Описание вашей организации' }).fill('Описание 1');
+
+    await page.getByRole('button', { name: 'Добавить' }).click();
+    await page.locator('.desktop-modal__close').click();
+
+    await page.getByRole('button', { name: 'Выбрать роль' }).click();
+    await page.getByText('Я являюсь представителем образовательной организации').click();
+    await page.getByText('Создание нового личного кабинета ОУ').click();
+    await page.getByRole('textbox', { name: 'Название вашей организации' }).fill('Второй ВУЗ');
     await page.getByRole('textbox', { name: 'Адрес вашей организации' }).fill('Адрес 2');
     await page.getByRole('textbox', { name: 'Описание вашей организации' }).fill('Описание 2');
 
     await page.getByRole('button', { name: 'Добавить' }).click();
     await page.locator('.desktop-modal__close').click();
-
     await page.getByText('Заявки').click();
     await page.getByRole('button', { name: 'Удалить' }).first().click();
   });

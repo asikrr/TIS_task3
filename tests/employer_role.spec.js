@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe.serial('Подача заявки на роль работодателя: позитивные тесты', () => {
+test.describe('Подача заявки на роль работодателя: позитивные тесты', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('https://dev.profteam.su/');
     await page.getByRole('button', { name: 'Авторизация' }).click();
@@ -21,11 +21,11 @@ test.describe.serial('Подача заявки на роль работодат
     await page.locator('.desktop-modal__close').click();
 
     await page.getByText('Заявки').click();
-    await expect(page.getByRole('button', { name: 'Удалить' }).first()).toBeVisible();
+    await page.getByRole('button', { name: 'Удалить' }).first().click();
   });
 });
 
-test.describe.serial('Подача заявки на роль работодателя: негативные тесты', () => {
+test.describe('Подача заявки на роль работодателя: негативные тесты', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('https://dev.profteam.su/');
     await page.getByRole('button', { name: 'Авторизация' }).click();
@@ -51,6 +51,16 @@ test.describe.serial('Подача заявки на роль работодат
   });
 
   test('Невозможно подать повторную заявку', async ({ page }) => {
+    await page.getByRole('button', { name: 'Выбрать роль' }).click();
+    await page.getByText('Я являюсь представителем коммерческой организации').click();
+    await page.getByText('Создание нового личного кабинета работодателя').click();
+    await page.getByRole('textbox', { name: 'Название вашей организации' }).fill('Первая организация');
+    await page.getByRole('textbox', { name: 'Адрес вашей организации' }).fill('Адрес 1');
+    await page.getByRole('textbox', { name: 'Описание вашей организации' }).fill('Описание 1');
+
+    await page.getByRole('button', { name: 'Добавить' }).click();
+    await page.locator('.desktop-modal__close').click();
+
     await page.getByRole('button', { name: 'Выбрать роль' }).click();
     await page.getByText('Я являюсь представителем коммерческой организации').click();
     await page.getByText('Создание нового личного кабинета работодателя').click();
